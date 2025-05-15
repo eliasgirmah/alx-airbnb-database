@@ -1,4 +1,4 @@
--- Original complex query
+-- Original complex query with WHERE and AND
 EXPLAIN ANALYZE
 SELECT
     b.booking_id,
@@ -16,9 +16,10 @@ SELECT
 FROM Booking b
 JOIN "User" u ON b.user_id = u.user_id
 JOIN Property p ON b.property_id = p.property_id
-JOIN Payment pay ON b.booking_id = pay.booking_id;
+JOIN Payment pay ON b.booking_id = pay.booking_id
+WHERE b.start_date >= '2023-01-01' AND p.name IS NOT NULL;
 
--- Refactored/optimized version (if you notice redundant columns or unnecessary joins)
+-- Optimized version with same filter
 EXPLAIN ANALYZE
 SELECT
     b.booking_id,
@@ -30,4 +31,5 @@ SELECT
 FROM Booking b
 JOIN "User" u ON b.user_id = u.user_id
 JOIN Property p ON b.property_id = p.property_id
-JOIN Payment pay ON b.booking_id = pay.booking_id;
+JOIN Payment pay ON b.booking_id = pay.booking_id
+WHERE b.start_date >= '2023-01-01' AND p.name IS NOT NULL;
